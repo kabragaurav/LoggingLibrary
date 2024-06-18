@@ -1,15 +1,10 @@
 package factories;
 
-import enums.Level;
-import enums.SinkType;
 import models.Configuration;
 import models.Message;
 import utils.DateTimeUtil;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import static utils.LoggerConstants.DEFAULT_LEVEL_TO_SINK_TYPES;
 
 /**
  * @author gauravkabra

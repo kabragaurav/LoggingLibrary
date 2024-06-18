@@ -29,48 +29,56 @@ public class Logger {
      * • time format
      * • logging level
      * • sink type
-     * • details required for sink (eg file location))
+     * • details required for sink (e.g. file location)
      */
 
     private static Map<String, Configuration> configurationsMap = new HashMap<>();
 
-    public void setupSink(Level loggingLevel, SinkType sinkType, String details) {
-        String key = loggingLevel.toString() + "_" + sinkType.toString();
-        configurationsMap.putIfAbsent(key, new Configuration(loggingLevel, sinkType, details));
+    public void setupSink(Level loggingLevel) {
+        String key = loggingLevel.toString() + MAP_KEY_SEP + DEFAULT_SINK_TYPE;
+        // put replenishes existing key, if any
+        configurationsMap.put(key, new Configuration(loggingLevel, DEFAULT_SINK_TYPE));
+    }
+
+    public void setupSink(Level loggingLevel, SinkType sinkType, String txtFileLocation) {
+        String key = loggingLevel.toString() + MAP_KEY_SEP + sinkType.toString();
+        // put replenishes existing key, if any
+        configurationsMap.put(key, new Configuration(loggingLevel, sinkType, txtFileLocation));
     }
 
     /**
      * You specify message content, level and namespace while sending a message
      * Sink need not be mentioned while sending a message to the logger library.
      */
-    public void log(Message message, LocalDateTime startTime, LocalDateTime endTime) {
-
-        Optional<Sink> optionalSink = Optional.ofNullable(message.getSink());
-
+    public void log(Message message, LocalDateTime startTime, LocalDateTime endTime) throws Exception {
+        // Requires configuration during sink setup
+        if (configurationsMap.isEmpty()) {
+            throw new Exception(NO_SINK_CONFIG_FOUND);
+        }
         // Sink need not be mentioned while sending a message to the logger library.
+        // get sink mentioned in message, if any
+        Optional<Sink> optionalSink = Optional.ofNullable(message.getSink());
         SinkType sinkType = optionalSink
                 .map(Sink::getSinkType)
-                .orElse(null);
+                .orElse(DEFAULT_SINK_TYPE);
 
         // A message level is tied to a sink.
-        List<Level> loggingLevels = optionalSink
+        Set<Level> loggingLevels = new HashSet<>(optionalSink
                 .map(Sink::getLevels)
-                .orElse(List.of(DEFAULT_LOG_LEVEL));
-
-        String key = message.getLevel() + "_" + sinkType;
-
-        Configuration configuration = configurationsMap.get(key);
+                .orElse(Set.of(DEFAULT_LOG_LEVEL)));
 
         Level level = message.getLevel();
-        List<Level> effectiveLoggingLevels = Level.getHigherOrEqualLevels(level);
+
+        // Message levels above a given message level should be logged
+        loggingLevels.add(level);
+        Set<Level> effectiveLoggingLevels = Level.getHigherOrEqualLevels(loggingLevels);
+        effectiveLoggingLevels.addAll(loggingLevels);
 
         for (Level effectiveLoggingLevel : effectiveLoggingLevels) {
-                Set<SinkType> sinkTypes = new HashSet<>(DEFAULT_LEVEL_TO_SINK_TYPES.get(effectiveLoggingLevel));
-                sinkTypes.add(sinkType);
-                for (SinkType sinkTyps : sinkTypes) {
-                    Writer writer = WriterFactory.getWriter(sinkTyps);
-                    writer.write(message, configuration, startTime, endTime);
-                }
+            String key = effectiveLoggingLevel.toString() + MAP_KEY_SEP + sinkType;
+            Configuration configuration = configurationsMap.get(key);
+            Writer writer = WriterFactory.getWriter(sinkType);
+            writer.write(message, configuration, startTime, endTime);
         }
     }
 }

@@ -15,6 +15,8 @@ public class WriterFactory {
         switch (sinkType) {
             case CONSOLE:
                 return new ConsoleWriter();
+            case TXT_FILE:
+                return new TextFileWriter();
             // rest cases like file writer, DB writer
             default:
                 return new ConsoleWriter();

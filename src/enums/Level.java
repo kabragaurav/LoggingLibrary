@@ -1,7 +1,9 @@
 package enums;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * @author gauravkabra
@@ -19,7 +21,7 @@ public enum Level {
     // the order of priority
     private int priority;
 
-    private Level(int priority) {
+    Level(int priority) {
         this.priority = priority;
     }
 
@@ -27,8 +29,16 @@ public enum Level {
         return priority;
     }
 
-    public static List<Level> getHigherOrEqualLevels(Level obtained) {
-        List<Level> effectiveLoggingLevels = new ArrayList<>();
+    public static Set<Level> getHigherOrEqualLevels(Set<Level> obtainedLevels) {
+        Set<Level> effectiveLoggingLevels = new HashSet<>();
+        for (Level obtained : obtainedLevels) {
+            effectiveLoggingLevels.addAll(getHigherOrEqualLevels(obtained));
+        }
+        return effectiveLoggingLevels;
+    }
+
+    private static Set<Level> getHigherOrEqualLevels(Level obtained) {
+        Set<Level> effectiveLoggingLevels = new HashSet<>();
         for (Level level : Level.values()) {
             if (level.getPriority() >= obtained.getPriority()) {
                 effectiveLoggingLevels.add(level);

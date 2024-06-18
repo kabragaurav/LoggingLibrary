@@ -4,6 +4,7 @@ import enums.Level;
 import enums.SinkType;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author gauravkabra
@@ -13,10 +14,10 @@ import java.util.List;
 public class Sink {
 
     private SinkType sinkType;
-    private List<Level> levels;
+    private Set<Level> levels;
 
 
-    public Sink(SinkType sinkType, List<Level> levels) {
+    public Sink(SinkType sinkType, Set<Level> levels) {
         this.sinkType = sinkType;
         this.levels = levels;
     }
@@ -25,7 +26,7 @@ public class Sink {
         return sinkType;
     }
 
-    public List<Level> getLevels() {
+    public Set<Level> getLevels() {
         return levels;
     }
 }
