@@ -7,10 +7,7 @@ import models.Message;
 import models.Sink;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static utils.LoggerConstants.*;
 
@@ -68,7 +65,7 @@ public class Logger {
         List<Level> effectiveLoggingLevels = Level.getHigherOrEqualLevels(level);
 
         for (Level effectiveLoggingLevel : effectiveLoggingLevels) {
-                List<SinkType> sinkTypes = DEFAULT_LEVEL_TO_SINK_TYPES.get(effectiveLoggingLevel);
+                Set<SinkType> sinkTypes = new HashSet<>(DEFAULT_LEVEL_TO_SINK_TYPES.get(effectiveLoggingLevel));
                 sinkTypes.add(sinkType);
                 for (SinkType sinkTyps : sinkTypes) {
                     Writer writer = WriterFactory.getWriter(sinkTyps);
