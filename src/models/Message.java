@@ -14,7 +14,6 @@ public class Message {
     private Sink sink;
     private String namespace;
 
-
     public Message(String content, Level level, Sink sink, String namespace) {
         this.content = content;
         this.level = level;

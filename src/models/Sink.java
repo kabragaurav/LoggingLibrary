@@ -3,7 +3,6 @@ package models;
 import enums.Level;
 import enums.SinkType;
 
-import java.util.List;
 import java.util.Set;
 
 /**

@@ -78,7 +78,7 @@ public class Logger {
             String key = effectiveLoggingLevel.toString() + MAP_KEY_SEP + sinkType;
             Configuration configuration = configurationsMap.get(key);
             Writer writer = WriterFactory.getWriter(sinkType);
-            writer.write(message, configuration, startTime, endTime);
+            writer.write(message, effectiveLoggingLevel, configuration, startTime, endTime);
         }
     }
 }

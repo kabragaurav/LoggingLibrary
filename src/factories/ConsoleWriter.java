@@ -1,10 +1,13 @@
 package factories;
 
+import enums.Level;
 import models.Configuration;
 import models.Message;
 import utils.DateTimeUtil;
 
 import java.time.LocalDateTime;
+
+import static utils.LoggerConstants.LOG_FILL_IN_MSG;
 
 /**
  * @author gauravkabra
@@ -14,10 +17,11 @@ import java.time.LocalDateTime;
 public class ConsoleWriter implements Writer {
 
     @Override
-    public void write(Message message, Configuration configuration, LocalDateTime startTime, LocalDateTime endTime) {
+    public void write(Message message, Level level, Configuration configuration, LocalDateTime startTime, LocalDateTime endTime) {
+        assert null != configuration;
         System.out.println(
-                String.format("PRIORITY: %s, START TIME: %s, END TIME: %s, TIME TAKEN: %s ms, MESSAGE: %s, FROM: %s",
-                        message.getLevel().getPriority(),
+                String.format(LOG_FILL_IN_MSG,
+                        message.getLevel().getPriority(), level.getPriority(),
                         startTime.toString(), endTime.toString(),
                         DateTimeUtil.getLocalDateTimeDiffInMs(endTime, startTime),
                         message.getContent(), message.getNamespace())

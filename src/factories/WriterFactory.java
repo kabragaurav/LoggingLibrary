@@ -2,8 +2,6 @@ package factories;
 
 import enums.SinkType;
 
-import static enums.SinkType.*;
-
 /**
  * @author gauravkabra
  * @since 2024

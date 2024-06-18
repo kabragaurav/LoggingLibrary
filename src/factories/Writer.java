@@ -1,9 +1,8 @@
 package factories;
 
+import enums.Level;
 import models.Message;
 import models.Configuration;
-
-
 import java.time.LocalDateTime;
 
 /**
@@ -12,5 +11,5 @@ import java.time.LocalDateTime;
  */
 
 public interface Writer {
-    void write(Message message, Configuration configuration, LocalDateTime startTime, LocalDateTime endTime);
+    void write(Message message, Level level, Configuration configuration, LocalDateTime startTime, LocalDateTime endTime);
 }

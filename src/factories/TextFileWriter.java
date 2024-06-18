@@ -1,5 +1,6 @@
 package factories;
 
+import enums.Level;
 import models.Configuration;
 import models.Message;
 import utils.DateTimeUtil;
@@ -12,6 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
+import static utils.LoggerConstants.LOG_FILL_IN_MSG;
+
 /**
  * @author gauravkabra
  * @since 2024
@@ -20,7 +23,8 @@ import java.time.LocalDateTime;
 public class TextFileWriter implements Writer {
 
     @Override
-    public void write(Message message, Configuration configuration, LocalDateTime startTime, LocalDateTime endTime) {
+    public void write(Message message, Level level, Configuration configuration, LocalDateTime startTime, LocalDateTime endTime) {
+        assert null != configuration;
         String txtFileLocation = configuration.getTxtFileLocation();
         Path filePath = Paths.get(txtFileLocation);
 
@@ -28,8 +32,8 @@ public class TextFileWriter implements Writer {
             if (!Files.exists(filePath)) {
                 Files.createFile(filePath);
             }
-            String line = String.format("PRIORITY: %s, START TIME: %s, END TIME: %s, TIME TAKEN: %s ms, MESSAGE: %s, FROM: %s",
-                    message.getLevel().getPriority(),
+            String line = String.format(LOG_FILL_IN_MSG,
+                    message.getLevel().getPriority(), level.getPriority(),
                     startTime.toString(), endTime.toString(),
                     DateTimeUtil.getLocalDateTimeDiffInMs(endTime, startTime),
                     message.getContent(), message.getNamespace());
