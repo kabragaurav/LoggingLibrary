@@ -7,8 +7,8 @@ import models.Configuration;
 import java.time.LocalDateTime;
 
 /**
- * @author gkabra
- * @since 250
+ * @author gauravkabra
+ * @since 2024
  */
 
 public interface Writer {
