@@ -18,6 +18,6 @@ by Gaurav Kabra
  - We have used enum's ability to get higher levels using `getHigherOrEqualLevels()` method
  - In general, we can use **chain of responsibility (cor) design pattern** where we create different levels logger and set next logger. Once one logger is done, it delegates to next logger.
  - But in our impl, cor will lead to complexity - extensibility wise if new level is introduced, we need to create new loggers and set next logger, and if level is between two existing loggers, existing classes will need changes to accommodate new logger as next logger
-
+5. If some external logger comes into picture (like slf4j), we need to use `facade design pattern`
 ## Setup
 Will require `JUnit5.8.1` to run tests.
