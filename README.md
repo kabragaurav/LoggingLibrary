@@ -158,7 +158,6 @@ public class ChainPatternDemo {
 ```
 
 ### Facade Pattern
-### Facade Pattern
 
 ```java
 interface ILogger {
