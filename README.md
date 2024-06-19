@@ -158,8 +158,6 @@ public class ChainPatternDemo {
 ```
 
 ### Facade Pattern
-Sure, here’s an improved example of the Facade Pattern implementation:
-
 ### Facade Pattern
 
 ```java
