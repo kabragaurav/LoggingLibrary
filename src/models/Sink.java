@@ -1,31 +1,14 @@
 package models;
 
 import enums.Level;
-import enums.SinkType;
 
-import java.util.Set;
+import java.time.LocalDateTime;
 
 /**
  * @author gauravkabra
  * @since 2024
  */
 
-public class Sink {
-
-    private SinkType sinkType;
-    private Set<Level> levels;
-
-
-    public Sink(SinkType sinkType, Set<Level> levels) {
-        this.sinkType = sinkType;
-        this.levels = levels;
-    }
-
-    public SinkType getSinkType() {
-        return sinkType;
-    }
-
-    public Set<Level> getLevels() {
-        return levels;
-    }
+public interface Sink {
+    void log(Level level, String message, LocalDateTime startTime, LocalDateTime endTime);
 }
